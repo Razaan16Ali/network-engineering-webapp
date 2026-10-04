@@ -133,7 +133,13 @@ document.getElementById('showLoginBtn').onclick=showAuth;
 document.getElementById('loginBtn').onclick=async()=>{const email=document.getElementById('emailInput').value.trim(),password=document.getElementById('passwordInput').value;if(!email||!password){setAuthMsg('Enter your email and password.');return;}setAuthBusy(true);setAuthMsg('Signing in…');const {error}=await sb.auth.signInWithPassword({email,password});setAuthBusy(false);if(error)setAuthMsg(error.message);};
 document.getElementById('registerBtn').onclick=async()=>{const email=document.getElementById('emailInput').value.trim(),password=document.getElementById('passwordInput').value;if(!email||!password){setAuthMsg('Enter an email and a password.');return;}if(password.length<6){setAuthMsg('Password must be at least 6 characters.');return;}setAuthBusy(true);setAuthMsg('Creating account…');const {data,error}=await sb.auth.signUp({email,password,options:{emailRedirectTo:window.location.href}});setAuthBusy(false);if(error){setAuthMsg(error.message);return;}setAuthMsg(data.session?'Account created and signed in.':'Account created. Check your email to verify the account, then log in.');};
 document.getElementById('forgotBtn').onclick=async()=>{const email=document.getElementById('emailInput').value.trim();if(!email){setAuthMsg('Enter your email first.');return;}setAuthBusy(true);setAuthMsg('Sending reset email…');const {error}=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.href});setAuthBusy(false);setAuthMsg(error?'Could not send reset email: '+error.message:'Password reset email sent.');};
-async function logout(){await sb.auth.signOut(); state = {tasks:{}, milestones{}}; savelocal(); hydrate(); setAuthMsg('Logged Out!'); }
+async function logout(){
+    await sb.auth.signOut();
+    state = {tasks:{}, milestones:{}};
+    saveLocal();
+    hydrate();
+    setAuthMsg('Logged Out!');
+}
 function renderAuth(user){currentUser=user||null;if(user){authTitle.innerHTML='<span class="sync-dot"></span>Connected';authSub.textContent=user.email||'';authActions.innerHTML='<button class="auth-btn danger" id="logoutBtn">Logout</button>';authForm.classList.remove('open');document.getElementById('logoutBtn').onclick=logout;}else{authTitle.textContent='Cloud sync';authSub.textContent='Sign in to save your checklist across devices.';authActions.innerHTML='<button class="auth-btn" id="showLoginBtn">Login / Register</button>';document.getElementById('showLoginBtn').onclick=showAuth;}}
 sb.auth.onAuthStateChange((_event,session)=>{renderAuth(session?.user||null);if(session?.user)loadCloud();else{setAuthMsg('Saved on this device. Login to sync across devices.');hydrate();}});
 (async()=>{hydrate();const {data}=await sb.auth.getSession();renderAuth(data.session?.user||null);if(data.session?.user)await loadCloud();else setAuthMsg('Login to sync across devices.');})();
