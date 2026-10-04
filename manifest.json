@@ -1,6 +1,6 @@
 {
-  "name": "30-Day Network Engineering Study Plan",
-  "short_name": "Network Study",
+  "name": "30-Day Network Engineering Study Tracker",
+  "short_name": "Study Tracker",
   "description": "Mobile checklist for the 30-Day Network Engineering Study Plan.",
   "start_url": "./",
   "scope": "./",
