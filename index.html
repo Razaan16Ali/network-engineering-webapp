@@ -881,118 +881,119 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./config.js"></script>
-  <script>
-    const { createClient } = window.supabase;
-    const sb = createClient(window.SUPABASE_URL, window.SUPABASE_PUBLISHABLE_KEY);
+<script src="./config.js"></script>
+<script>
+  const { createClient } = window.supabase;
+  const sb = createClient(window.SUPABASE_URL, window.SUPABASE_PUBLISHABLE_KEY);
 
-    const PLAN = {
-      "days": [
-        {"day": 1, "title": "Networking Fundamentals", "tasks": ["Tanenbaum: What computer networks are; network types; Internet; client/server; peer-to-peer; topologies.", "Practical: Install Cisco Packet Tracer and Wireshark. Build PC1 → Switch → PC2.", "Goal: Recognize the components of a basic network and read a simple topology."]},
-        {"day": 2, "title": "OSI & TCP/IP Models", "tasks": ["Learn the 7-layer OSI model and TCP/IP model.", "Understand encapsulation: Application → Transport → Network → Data Link → Physical.", "Practical: Capture traffic in Wireshark and identify Ethernet, IP, TCP, DNS and HTTPS traffic."]},
-        {"day": 3, "title": "Data Transmission", "tasks": ["Study bits, bytes, bandwidth, throughput, latency, propagation delay, transmission delay, packets, frames, segments and MTU.", "Practice explaining the difference between bandwidth, throughput and latency.", "Goal: Understand what actually travels across a network."]},
-        {"day": 4, "title": "Ethernet & MAC Addresses", "tasks": ["Learn Ethernet frames, MAC addresses, unicast, broadcast and multicast.", "Understand source/destination MAC addresses and the role of a NIC.", "Packet Tracer: Build three PCs connected to one switch."]},
-        {"day": 5, "title": "Switching", "tasks": ["Learn MAC address tables, MAC learning, forwarding, flooding, broadcast domains and collision domains.", "Packet Tracer: Use four PCs and a switch. Observe first-time versus subsequent communication.", "Goal: Explain how a Layer 2 switch decides where to forward a frame."]},
-        {"day": 6, "title": "Week 1 Review & Troubleshooting", "tasks": ["Draw a basic Internet → Router → Switch → PCs network from memory.", "Explain what happens when PC1 sends data to PC2.", "Review weak topics; avoid learning new material."]},
-        {"day": 7, "title": "Rest / Light Review", "tasks": ["Rest day.", "Optional: Watch a short networking video or review flashcards.", "Do not turn the rest day into another heavy study session."]},
-        {"day": 8, "title": "IPv4 Addressing", "tasks": ["Learn IPv4 addresses, network/host portions, subnet masks, default gateways, private and public addressing.", "Understand CIDR notation such as 192.168.1.10/24.", "Practice identifying network and host portions."]},
-        {"day": 9, "title": "Binary", "tasks": ["Learn binary using place values: 128 64 32 16 8 4 2 1.", "Convert IPv4 octets between binary and decimal.", "Practice until you can convert common octets without relying on a calculator."]},
-        {"day": 10, "title": "Subnet Masks", "tasks": ["Study /8, /16, /24, /25, /26, /27, /28, /29 and /30.", "Convert CIDR prefixes into dotted-decimal masks.", "Begin calculating usable hosts and network ranges."]},
-        {"day": 11, "title": "Subnetting", "tasks": ["Practice finding network address, first usable, last usable, broadcast address and host count.", "Exercise: Divide 192.168.1.0/24 into four smaller networks.", "Goal: Perform basic subnetting by hand."]},
-        {"day": 12, "title": "DHCP", "tasks": ["Learn DHCP server/client operation and DORA: Discover, Offer, Request, Acknowledgement.", "Understand how a host receives IP address, subnet mask, gateway and DNS settings.", "Packet Tracer: Configure DHCP and verify client addressing."]},
-        {"day": 13, "title": "ARP", "tasks": ["Understand why a host needs a MAC address when it knows a local destination IP.", "Learn ARP requests/replies and the ARP cache.", "Use Wireshark to capture and inspect ARP traffic."]},
-        {"day": 14, "title": "Week 2 Review", "tasks": ["Build a switch with three PCs using 192.168.1.10–12/24.", "Verify connectivity with ping.", "Deliberately change one PC to 192.168.2.11 and troubleshoot the failure."]},
-        {"day": 15, "title": "TCP", "tasks": ["Study connection-oriented communication, reliability, sequence numbers, acknowledgements, retransmission and flow control.", "Understand the TCP three-way handshake: SYN → SYN-ACK → ACK.", "Capture a TCP connection in Wireshark if possible."]},
-        {"day": 16, "title": "UDP", "tasks": ["Compare TCP and UDP: connection model, reliability, ordering and overhead.", "Learn why different applications use different transport protocols.", "Practice identifying TCP versus UDP in packet captures."]},
-        {"day": 17, "title": "Common Ports", "tasks": ["Learn important ports: SSH 22, DNS 53, DHCP 67/68, HTTP 80, HTTPS 443, RDP 3389 and other common services.", "Focus on understanding what each service does rather than memorizing a huge list.", "Create a one-page port reference sheet."]},
-        {"day": 18, "title": "DNS", "tasks": ["Learn DNS resolvers, recursive lookups, A, AAAA, CNAME and MX records.", "Use nslookup or dig to query domains.", "Explain how www.example.com becomes an IP address."]},
-        {"day": 19, "title": "Routing Fundamentals", "tasks": ["Learn routers, routing tables, next hops and default routes.", "Understand the difference between switching and routing.", "Draw two IP networks connected by a router and explain packet movement."]},
-        {"day": 20, "title": "Router Practical", "tasks": ["Packet Tracer: PC1 → Switch → Router → Switch → PC2.", "Use 192.168.1.0/24 and 192.168.2.0/24.", "Configure the router so both PCs can communicate."]},
-        {"day": 21, "title": "Week 3 Review", "tasks": ["Explain exactly what happens when 192.168.1.10 pings 192.168.2.10 through a router.", "Include ARP, Ethernet, IP, routing table and the new frame on the other interface.", "Rebuild the topology without following a tutorial."]},
-        {"day": 22, "title": "VLANs", "tasks": ["Learn VLANs, access ports, trunk ports and 802.1Q tagging.", "Understand why organizations separate Management, Employees, Guest and Server traffic.", "Design VLAN 10, 20, 30 and 40 on paper."]},
-        {"day": 23, "title": "VLAN Practical", "tasks": ["Packet Tracer: Configure VLANs and access ports.", "Place PCs in different VLANs and observe that they cannot communicate without Layer 3 routing.", "Verify VLAN membership and connectivity."]},
-        {"day": 24, "title": "Inter-VLAN Routing", "tasks": ["Learn router-on-a-stick, subinterfaces and inter-VLAN routing.", "Configure communication between VLAN 10 and VLAN 20.", "Understand the role of the default gateway for each VLAN."]},
-        {"day": 25, "title": "NAT & PAT", "tasks": ["Learn private/public IPs, NAT, PAT and inside/outside interfaces.", "Understand how many private hosts can share a public address using port translation.", "Draw the traffic path from a private PC to the Internet."]},
-        {"day": 26, "title": "Firewalls & ACLs", "tasks": ["Learn firewall concepts, inbound/outbound filtering and basic allow/deny rules.", "Understand how ACLs control traffic between networks.", "Create a simple rule concept: allow required traffic, deny unwanted traffic."]},
-        {"day": 27, "title": "Linux Networking", "tasks": ["Use Ubuntu or another Linux VM.", "Practice: ip addr, ip route, ping, traceroute, ss, curl, nslookup and dig.", "Identify your IP address, subnet, gateway, DNS server and routing table."]},
-        {"day": 28, "title": "Troubleshooting Method", "tasks": ["Use a systematic sequence: Physical → Link → IP configuration → Routing → DNS → Application.", "Practice troubleshooting 'I cannot access Google' without assuming the cause.", "Create and solve at least three intentional faults in Packet Tracer."]}
-      ],
-      "weeks": [
-        {"week": 1, "title": "Networking Fundamentals", "days": [1, 2, 3, 4, 5, 6, 7]},
-        {"week": 2, "title": "IP Addressing & Network Services", "days": [8, 9, 10, 11, 12, 13, 14]},
-        {"week": 3, "title": "Transport, Ports, DNS & Routing", "days": [15, 16, 17, 18, 19, 20, 21]},
-        {"week": 4, "title": "VLANs, NAT, Security & Troubleshooting", "days": [22, 23, 24, 25, 26, 27, 28]}
-      ]
-    };
+  const PLAN = {
+    "days": [
+      {"day": 1, "title": "Networking Fundamentals", "tasks": ["Tanenbaum: What computer networks are; network types; Internet; client/server; peer-to-peer; topologies.", "Practical: Install Cisco Packet Tracer and Wireshark. Build PC1 → Switch → PC2.", "Goal: Recognize the components of a basic network and read a simple topology."]},
+      {"day": 2, "title": "OSI & TCP/IP Models", "tasks": ["Learn the 7-layer OSI model and TCP/IP model.", "Understand encapsulation: Application → Transport → Network → Data Link → Physical.", "Practical: Capture traffic in Wireshark and identify Ethernet, IP, TCP, DNS and HTTPS traffic."]},
+      {"day": 3, "title": "Data Transmission", "tasks": ["Study bits, bytes, bandwidth, throughput, latency, propagation delay, transmission delay, packets, frames, segments and MTU.", "Practice explaining the difference between bandwidth, throughput and latency.", "Goal: Understand what actually travels across a network."]},
+      {"day": 4, "title": "Ethernet & MAC Addresses", "tasks": ["Learn Ethernet frames, MAC addresses, unicast, broadcast and multicast.", "Understand source/destination MAC addresses and the role of a NIC.", "Packet Tracer: Build three PCs connected to one switch."]},
+      {"day": 5, "title": "Switching", "tasks": ["Learn MAC address tables, MAC learning, forwarding, flooding, broadcast domains and collision domains.", "Packet Tracer: Use four PCs and a switch. Observe first-time versus subsequent communication.", "Goal: Explain how a Layer 2 switch decides where to forward a frame."]},
+      {"day": 6, "title": "Week 1 Review & Troubleshooting", "tasks": ["Draw a basic Internet → Router → Switch → PCs network from memory.", "Explain what happens when PC1 sends data to PC2.", "Review weak topics; avoid learning new material."]},
+      {"day": 7, "title": "Rest / Light Review", "tasks": ["Rest day.", "Optional: Watch a short networking video or review flashcards.", "Do not turn the rest day into another heavy study session."]},
+      {"day": 8, "title": "IPv4 Addressing", "tasks": ["Learn IPv4 addresses, network/host portions, subnet masks, default gateways, private and public addressing.", "Understand CIDR notation such as 192.168.1.10/24.", "Practice identifying network and host portions."]},
+      {"day": 9, "title": "Binary", "tasks": ["Learn binary using place values: 128 64 32 16 8 4 2 1.", "Convert IPv4 octets between binary and decimal.", "Practice until you can convert common octets without relying on a calculator."]},
+      {"day": 10, "title": "Subnet Masks", "tasks": ["Study /8, /16, /24, /25, /26, /27, /28, /29 and /30.", "Convert CIDR prefixes into dotted-decimal masks.", "Begin calculating usable hosts and network ranges."]},
+      {"day": 11, "title": "Subnetting", "tasks": ["Practice finding network address, first usable, last usable, broadcast address and host count.", "Exercise: Divide 192.168.1.0/24 into four smaller networks.", "Goal: Perform basic subnetting by hand."]},
+      {"day": 12, "title": "DHCP", "tasks": ["Learn DHCP server/client operation and DORA: Discover, Offer, Request, Acknowledgement.", "Understand how a host receives IP address, subnet mask, gateway and DNS settings.", "Packet Tracer: Configure DHCP and verify client addressing."]},
+      {"day": 13, "title": "ARP", "tasks": ["Understand why a host needs a MAC address when it knows a local destination IP.", "Learn ARP requests/replies and the ARP cache.", "Use Wireshark to capture and inspect ARP traffic."]},
+      {"day": 14, "title": "Week 2 Review", "tasks": ["Build a switch with three PCs using 192.168.1.10–12/24.", "Verify connectivity with ping.", "Deliberately change one PC to 192.168.2.11 and troubleshoot the failure."]},
+      {"day": 15, "title": "TCP", "tasks": ["Study connection-oriented communication, reliability, sequence numbers, acknowledgements, retransmission and flow control.", "Understand the TCP three-way handshake: SYN → SYN-ACK → ACK.", "Capture a TCP connection in Wireshark if possible."]},
+      {"day": 16, "title": "UDP", "tasks": ["Compare TCP and UDP: connection model, reliability, ordering and overhead.", "Learn why different applications use different transport protocols.", "Practice identifying TCP versus UDP in packet captures."]},
+      {"day": 17, "title": "Common Ports", "tasks": ["Learn important ports: SSH 22, DNS 53, DHCP 67/68, HTTP 80, HTTPS 443, RDP 3389 and other common services.", "Focus on understanding what each service does rather than memorizing a huge list.", "Create a one-page port reference sheet."]},
+      {"day": 18, "title": "DNS", "tasks": ["Learn DNS resolvers, recursive lookups, A, AAAA, CNAME and MX records.", "Use nslookup or dig to query domains.", "Explain how www.example.com becomes an IP address."]},
+      {"day": 19, "title": "Routing Fundamentals", "tasks": ["Learn routers, routing tables, next hops and default routes.", "Understand the difference between switching and routing.", "Draw two IP networks connected by a router and explain packet movement."]},
+      {"day": 20, "title": "Router Practical", "tasks": ["Packet Tracer: PC1 → Switch → Router → Switch → PC2.", "Use 192.168.1.0/24 and 192.168.2.0/24.", "Configure the router so both PCs can communicate."]},
+      {"day": 21, "title": "Week 3 Review", "tasks": ["Explain exactly what happens when 192.168.1.10 pings 192.168.2.10 through a router.", "Include ARP, Ethernet, IP, routing table and the new frame on the other interface.", "Rebuild the topology without following a tutorial."]},
+      {"day": 22, "title": "VLANs", "tasks": ["Learn VLANs, access ports, trunk ports and 802.1Q tagging.", "Understand why organizations separate Management, Employees, Guest and Server traffic.", "Design VLAN 10, 20, 30 and 40 on paper."]},
+      {"day": 23, "title": "VLAN Practical", "tasks": ["Packet Tracer: Configure VLANs and access ports.", "Place PCs in different VLANs and observe that they cannot communicate without Layer 3 routing.", "Verify VLAN membership and connectivity."]},
+      {"day": 24, "title": "Inter-VLAN Routing", "tasks": ["Learn router-on-a-stick, subinterfaces and inter-VLAN routing.", "Configure communication between VLAN 10 and VLAN 20.", "Understand the role of the default gateway for each VLAN."]},
+      {"day": 25, "title": "NAT & PAT", "tasks": ["Learn private/public IPs, NAT, PAT and inside/outside interfaces.", "Understand how many private hosts can share a public address using port translation.", "Draw the traffic path from a private PC to the Internet."]},
+      {"day": 26, "title": "Firewalls & ACLs", "tasks": ["Learn firewall concepts, inbound/outbound filtering and basic allow/deny rules.", "Understand how ACLs control traffic between networks.", "Create a simple rule concept: allow required traffic, deny unwanted traffic."]},
+      {"day": 27, "title": "Linux Networking", "tasks": ["Use Ubuntu or another Linux VM.", "Practice: ip addr, ip route, ping, traceroute, ss, curl, nslookup and dig.", "Identify your IP address, subnet, gateway, DNS server and routing table."]},
+      {"day": 28, "title": "Troubleshooting Method", "tasks": ["Use a systematic sequence: Physical → Link → IP configuration → Routing → DNS → Application.", "Practice troubleshooting 'I cannot access Google' without assuming the cause.", "Create and solve at least three intentional faults in Packet Tracer."]}
+    ],
+    "weeks": [
+      {"week": 1, "title": "Networking Fundamentals", "days": [1, 2, 3, 4, 5, 6, 7]},
+      {"week": 2, "title": "IP Addressing & Network Services", "days": [8, 9, 10, 11, 12, 13, 14]},
+      {"week": 3, "title": "Transport, Ports, DNS & Routing", "days": [15, 16, 17, 18, 19, 20, 21]},
+      {"week": 4, "title": "VLANs, NAT, Security & Troubleshooting", "days": [22, 23, 24, 25, 26, 27, 28]}
+    ]
+  };
 
-    const KEY = 'network-engineering-30-day-progress-v1';
-    let state = JSON.parse(localStorage.getItem(KEY) || '{"tasks":{},"milestones":{}}');
-    let currentUser = null, saveTimer = null;
-    const allChecks = [...document.querySelectorAll('input[type=checkbox]')];
-    const authForm = document.getElementById('authForm'), 
-          authMsg = document.getElementById('authMsg'), 
-          authTitle = document.getElementById('authTitle'), 
-          authSub = document.getElementById('authSub'), 
-          authActions = document.getElementById('authActions');
+  const KEY = 'network-engineering-30-day-progress-v1';
+  let state = JSON.parse(localStorage.getItem(KEY) || '{"tasks":{},"milestones":{}}');
+  let currentUser = null, saveTimer = null;
+  const allChecks = [...document.querySelectorAll('input[type=checkbox]')];
+  const authForm = document.getElementById('authForm'), 
+        authMsg = document.getElementById('authMsg'), 
+        authTitle = document.getElementById('authTitle'), 
+        authSub = document.getElementById('authSub'), 
+        authActions = document.getElementById('authActions');
 
-    function saveLocal() {
-      localStorage.setItem(KEY, JSON.stringify(state));
-    }
+  function saveLocal() {
+    localStorage.setItem(KEY, JSON.stringify(state));
+  }
 
-    function setAuthMsg(msg) {
-      authMsg.textContent = msg || '';
-    }
+  function setAuthMsg(msg) {
+    authMsg.textContent = msg || '';
+  }
 
-    function setAuthBusy(busy) {
-      ['loginBtn', 'registerBtn', 'forgotBtn'].forEach(id => {
-        const b = document.getElementById(id);
-        if (b) {
-          b.disabled = busy;
-          b.style.opacity = busy ? 0.65 : 1;
+  function setAuthBusy(busy) {
+    ['loginBtn', 'registerBtn', 'forgotBtn'].forEach(id => {
+      const b = document.getElementById(id);
+      if (b) {
+        b.disabled = busy;
+        b.style.opacity = busy ? 0.65 : 1;
+      }
+    });
+  }
+
+  function refresh() {
+    let done = 0, total = 0, daysDone = 0;
+    PLAN.days.forEach(d => {
+      let dd = 0;
+      d.tasks.forEach((_, i) => {
+        total++;
+        if (state.tasks[d.day + '-' + i]) {
+          done++;
+          dd++;
         }
       });
-    }
-
-    function refresh() {
-      let done = 0, total = 0, daysDone = 0;
-      PLAN.days.forEach(d => {
-        let dd = 0;
-        d.tasks.forEach((_, i) => {
-          total++;
-          if (state.tasks[d.day + '-' + i]) {
-            done++;
-            dd++;
-          }
-        });
-        const st = document.querySelector(`[data-status="${d.day}"]`);
-        if (st) st.textContent = dd + '/' + d.tasks.length;
-        const card = document.querySelector(`[data-day-card="${d.day}"]`);
-        if (card) card.classList.toggle('complete', dd === d.tasks.length);
-        if (dd === d.tasks.length) daysDone++;
+      const st = document.querySelector(`[data-status="${d.day}"]`);
+      if (st) st.textContent = dd + '/' + d.tasks.length;
+      const card = document.querySelector(`[data-day-card="${d.day}"]`);
+      if (card) card.classList.toggle('complete', dd === d.tasks.length);
+      if (dd === d.tasks.length) daysDone++;
+    });
+    let pct = total ? Math.round(done / total * 100) : 0;
+    document.getElementById('overallPct').textContent = pct + '%';
+    document.getElementById('overallFill').style.width = pct + '%';
+    document.getElementById('taskStat').textContent = done + ' / ' + total + ' tasks';
+    document.getElementById('dayStat').textContent = daysDone + ' / 28 days complete';
+    PLAN.weeks.forEach(w => {
+      let t = 0, d = 0;
+      w.days.forEach(n => {
+        const day = PLAN.days.find(x => x.day === n);
+        if (day) {
+          day.tasks.forEach((_, i) => {
+            t++;
+            if (state.tasks[n + '-' + i]) d++;
+          });
+        }
       });
-      let pct = total ? Math.round(done / total * 100) : 0;
-      document.getElementById('overallPct').textContent = pct + '%';
-      document.getElementById('overallFill').style.width = pct + '%';
-      document.getElementById('taskStat').textContent = done + ' / ' + total + ' tasks';
-      document.getElementById('dayStat').textContent = daysDone + ' / 28 days complete';
-      PLAN.weeks.forEach(w => {
-        let t = 0, d = 0;
-        w.days.forEach(n => {
-          const day = PLAN.days.find(x => x.day === n);
-          if (day) {
-            day.tasks.forEach((_, i) => {
-              t++;
-              if (state.tasks[n + '-' + i]) d++;
-            });
-          }
-        });
-        const wc = document.querySelector(`[data-week-count="${w.week}"]`);
-        if (wc) wc.textContent = (t ? Math.round(d / t * 100) : 0) + '%';
-      });
-    }
+      const wc = document.querySelector(`[data-week-count="${w.week}"]`);
+      if (wc) wc.textContent = (t ? Math.round(d / t * 100) : 0) + '%';
+    });
+  }
 
-    async function cloudSaveOne(taskId, completed) {
-      if (!currentUser) return;
+  async function cloudSaveOne(taskId, completed) {
+    if (!currentUser) return;
+    try {
       const { error } = await sb.from('study_progress').upsert({
         user_id: currentUser.id,
         task_id: taskId,
@@ -1002,45 +1003,50 @@
 
       if (error) {
         console.error(error);
-        setAuthMsg('Saved locally, but cloud sync failed: ' + error.message);
+        setAuthMsg('Saved locally, sync failed: ' + error.message);
       }
+    } catch (e) {
+      console.error(e);
+      setAuthMsg('Saved locally, sync connection error.');
     }
+  }
 
-    function queueCloudSave(taskId, completed) {
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => cloudSaveOne(taskId, completed), 150);
-    }
+  function queueCloudSave(taskId, completed) {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => cloudSaveOne(taskId, completed), 150);
+  }
 
-    async function migrateLocalToCloud() {
-      const now = new Date().toISOString(), rows = [];
-      Object.entries(state.tasks).forEach(([id, completed]) => rows.push({ user_id: currentUser.id, task_id: 'task-' + id, completed: !!completed, updated_at: now }));
-      Object.entries(state.milestones).forEach(([id, completed]) => rows.push({ user_id: currentUser.id, task_id: 'milestone-' + id, completed: !!completed, updated_at: now }));
-      if (!rows.length) {
-        setAuthMsg('Cloud sync ready.');
-        return true;
-      }
-      const { error } = await sb.from('study_progress').upsert(rows, { onConflict: 'user_id,task_id' });
-      if (error) {
-        setAuthMsg('Migration failed: ' + error.message);
-        return false;
-      }
-      setAuthMsg('Your existing progress is now synced to the cloud.');
+  async function migrateLocalToCloud() {
+    const now = new Date().toISOString(), rows = [];
+    Object.entries(state.tasks).forEach(([id, completed]) => rows.push({ user_id: currentUser.id, task_id: 'task-' + id, completed: !!completed, updated_at: now }));
+    Object.entries(state.milestones).forEach(([id, completed]) => rows.push({ user_id: currentUser.id, task_id: 'milestone-' + id, completed: !!completed, updated_at: now }));
+    if (!rows.length) {
+      setAuthMsg('Cloud sync active.');
       return true;
     }
+    const { error } = await sb.from('study_progress').upsert(rows, { onConflict: 'user_id,task_id' });
+    if (error) {
+      setAuthMsg('Cloud sync error: ' + error.message);
+      return false;
+    }
+    setAuthMsg('Cloud sync active.');
+    return true;
+  }
 
-    async function loadCloud() {
-      if (!currentUser) return;
-      setAuthMsg('Loading your cloud progress…');
+  async function loadCloud() {
+    if (!currentUser) return;
+    setAuthMsg('Syncing cloud progress…');
+    try {
       const { data, error } = await sb.from('study_progress').select('task_id,completed').eq('user_id', currentUser.id);
       if (error) {
-        setAuthMsg('Could not load cloud progress: ' + error.message);
+        setAuthMsg('Cloud sync error: ' + error.message);
         return;
       }
       const rows = data || [];
       if (rows.length === 0) {
         const localHas = Object.values(state.tasks).some(Boolean) || Object.values(state.milestones).some(Boolean);
         if (localHas) await migrateLocalToCloud();
-        else setAuthMsg('Cloud sync ready.');
+        else setAuthMsg('Cloud sync active.');
       } else {
         state = { tasks: {}, milestones: {} };
         rows.forEach(r => {
@@ -1048,134 +1054,133 @@
           else if (r.task_id.startsWith('milestone-')) state.milestones[r.task_id.slice(10)] = !!r.completed;
         });
         saveLocal();
-        setAuthMsg('Cloud progress loaded.');
+        setAuthMsg('Cloud sync active.');
       }
-      hydrate();
+    } catch (err) {
+      setAuthMsg('Sync failed: Could not connect to backend.');
+      console.error(err);
     }
+    hydrate();
+  }
 
-    function hydrate() {
-      allChecks.forEach(el => el.checked = el.dataset.day ? !!state.tasks[el.dataset.day + '-' + el.dataset.task] : !!state.milestones[el.dataset.milestone]);
-      refresh();
-    }
+  function hydrate() {
+    allChecks.forEach(el => el.checked = el.dataset.day ? !!state.tasks[el.dataset.day + '-' + el.dataset.task] : !!state.milestones[el.dataset.milestone]);
+    refresh();
+  }
 
-    allChecks.forEach(el => el.addEventListener('change', () => {
-      const id = el.dataset.day ? 'task-' + el.dataset.day + '-' + el.dataset.task : 'milestone-' + el.dataset.milestone;
-      if (el.dataset.day) state.tasks[el.dataset.day + '-' + el.dataset.task] = el.checked;
-      else state.milestones[el.dataset.milestone] = el.checked;
-      saveLocal();
-      refresh();
-      if (currentUser) queueCloudSave(id, el.checked);
-      else setAuthMsg('Login to sync across devices.');
-    }));
+  allChecks.forEach(el => el.addEventListener('change', () => {
+    const id = el.dataset.day ? 'task-' + el.dataset.day + '-' + el.dataset.task : 'milestone-' + el.dataset.milestone;
+    if (el.dataset.day) state.tasks[el.dataset.day + '-' + el.dataset.task] = el.checked;
+    else state.milestones[el.dataset.milestone] = el.checked;
+    saveLocal();
+    refresh();
+    if (currentUser) queueCloudSave(id, el.checked);
+    else setAuthMsg('Login to sync across devices.');
+  }));
 
-    document.getElementById('resetBtn').onclick = async () => {
-      if (confirm('Reset all checklist progress?')) {
-        state = { tasks: {}, milestones: {} };
-        saveLocal();
-        hydrate();
-        if (currentUser) {
-          const { error } = await sb.from('study_progress').delete().eq('user_id', currentUser.id);
-          setAuthMsg(error ? 'Local progress reset, but cloud reset failed: ' + error.message : 'Local and cloud progress reset.');
-        }
-      }
-    };
-
-    let collapsed = false;
-    document.getElementById('collapseBtn').onclick = () => {
-      collapsed = !collapsed;
-      document.querySelectorAll('.week-grid').forEach(x => x.style.display = collapsed ? 'none' : 'grid');
-      document.getElementById('collapseBtn').textContent = collapsed ? 'Expand weeks' : 'Collapse weeks';
-    };
-
-    document.getElementById('todayBtn').onclick = () => {
-      const next = PLAN.days.find(d => d.tasks.some((_, i) => !state.tasks[d.day + '-' + i]));
-      if (next) document.querySelector(`[data-day-card="${next.day}"]`).scrollIntoView({ behavior: 'smooth', block: 'center' });
-      else document.querySelector('.completion').scrollIntoView({ behavior: 'smooth' });
-    };
-
-    function showAuth() {
-      authForm.classList.add('open');
-      document.getElementById('emailInput').focus();
-    }
-
-    document.getElementById('showLoginBtn').onclick = showAuth;
-
-    document.getElementById('loginBtn').onclick = async () => {
-      const email = document.getElementById('emailInput').value.trim(), password = document.getElementById('passwordInput').value;
-      if (!email || !password) { setAuthMsg('Enter your email and password.'); return; }
-      setAuthBusy(true);
-      setAuthMsg('Signing in…');
-      const { error } = await sb.auth.signInWithPassword({ email, password });
-      setAuthBusy(false);
-      if (error) setAuthMsg(error.message);
-    };
-
-    document.getElementById('registerBtn').onclick = async () => {
-      const email = document.getElementById('emailInput').value.trim(), password = document.getElementById('passwordInput').value;
-      if (!email || !password) { setAuthMsg('Enter an email and a password.'); return; }
-      if (password.length < 6) { setAuthMsg('Password must be at least 6 characters.'); return; }
-      setAuthBusy(true);
-      setAuthMsg('Creating account…');
-      const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: window.location.href } });
-      setAuthBusy(false);
-      if (error) { setAuthMsg(error.message); return; }
-      setAuthMsg(data.session ? 'Account created and signed in.' : 'Account created. Check your email to verify the account, then log in.');
-    };
-
-    document.getElementById('forgotBtn').onclick = async () => {
-      const email = document.getElementById('emailInput').value.trim();
-      if (!email) { setAuthMsg('Enter your email first.'); return; }
-      setAuthBusy(true);
-      setAuthMsg('Sending reset email…');
-      const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
-      setAuthBusy(false);
-      setAuthMsg(error ? 'Could not send reset email: ' + error.message : 'Password reset email sent.');
-    };
-
-    async function logout() {
-      await sb.auth.signOut();
+  document.getElementById('resetBtn').onclick = async () => {
+    if (confirm('Reset all checklist progress?')) {
       state = { tasks: {}, milestones: {} };
       saveLocal();
       hydrate();
-      setAuthMsg('Logged Out!');
-    }
-
-    function renderAuth(user) {
-      currentUser = user || null;
-      if (user) {
-        authTitle.innerHTML = '<span class="sync-dot"></span>Connected';
-        authSub.textContent = user.email || '';
-        authActions.innerHTML = '<button class="auth-btn danger" id="logoutBtn">Logout</button>';
-        authForm.classList.remove('open');
-        document.getElementById('logoutBtn').onclick = logout;
-      } else {
-        authTitle.textContent = 'Cloud sync';
-        authSub.textContent = 'Sync progress across devices.';
-        authActions.innerHTML = '<button class="auth-btn" id="showLoginBtn">Login / Register</button>';
-        document.getElementById('showLoginBtn').onclick = showAuth;
+      if (currentUser) {
+        const { error } = await sb.from('study_progress').delete().eq('user_id', currentUser.id);
+        setAuthMsg(error ? 'Reset locally, but cloud reset failed: ' + error.message : 'Local and cloud progress reset.');
       }
     }
+  };
 
-    sb.auth.onAuthStateChange((_event, session) => {
-      renderAuth(session?.user || null);
-      if (session?.user) loadCloud();
-      else {
-        setAuthMsg('Saved on this device. Login to sync across devices.');
-        hydrate();
-      }
-    });
+  let collapsed = false;
+  document.getElementById('collapseBtn').onclick = () => {
+    collapsed = !collapsed;
+    document.querySelectorAll('.week-grid').forEach(x => x.style.display = collapsed ? 'none' : 'grid');
+    document.getElementById('collapseBtn').textContent = collapsed ? 'Expand weeks' : 'Collapse weeks';
+  };
 
-    (async () => {
+  document.getElementById('todayBtn').onclick = () => {
+    const next = PLAN.days.find(d => d.tasks.some((_, i) => !state.tasks[d.day + '-' + i]));
+    if (next) document.querySelector(`[data-day-card="${next.day}"]`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    else document.querySelector('.completion').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  function showAuth() {
+    authForm.classList.add('open');
+    document.getElementById('emailInput').focus();
+  }
+
+  document.getElementById('showLoginBtn').onclick = showAuth;
+
+  document.getElementById('loginBtn').onclick = async () => {
+    const email = document.getElementById('emailInput').value.trim(), password = document.getElementById('passwordInput').value;
+    if (!email || !password) { setAuthMsg('Enter your email and password.'); return; }
+    setAuthBusy(true);
+    setAuthMsg('Signing in…');
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    setAuthBusy(false);
+    if (error) setAuthMsg(error.message);
+  };
+
+  document.getElementById('registerBtn').onclick = async () => {
+    const email = document.getElementById('emailInput').value.trim(), password = document.getElementById('passwordInput').value;
+    if (!email || !password) { setAuthMsg('Enter an email and a password.'); return; }
+    if (password.length < 6) { setAuthMsg('Password must be at least 6 characters.'); return; }
+    setAuthBusy(true);
+    setAuthMsg('Creating account…');
+    const { data, error } = await sb.auth.signUp({ email, password, options: { emailRedirectTo: window.location.href } });
+    setAuthBusy(false);
+    if (error) { setAuthMsg(error.message); return; }
+    setAuthMsg(data.session ? 'Account created and signed in.' : 'Account created. Check your email to verify your account.');
+  };
+
+  document.getElementById('forgotBtn').onclick = async () => {
+    const email = document.getElementById('emailInput').value.trim();
+    if (!email) { setAuthMsg('Enter your email first.'); return; }
+    setAuthBusy(true);
+    setAuthMsg('Sending reset email…');
+    const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.href });
+    setAuthBusy(false);
+    setAuthMsg(error ? 'Could not send reset email: ' + error.message : 'Password reset email sent.');
+  };
+
+  async function logout() {
+    await sb.auth.signOut();
+    state = { tasks: {}, milestones: {} };
+    saveLocal();
+    hydrate();
+    setAuthMsg('Logged out.');
+  }
+
+  function renderAuth(user) {
+    currentUser = user || null;
+    if (user) {
+      authTitle.innerHTML = '<span class="sync-dot"></span>Connected';
+      authSub.textContent = user.email || '';
+      authActions.innerHTML = '<button class="auth-btn danger" id="logoutBtn">Logout</button>';
+      authForm.classList.remove('open');
+      document.getElementById('logoutBtn').onclick = logout;
+    } else {
+      authTitle.textContent = 'Cloud sync';
+      authSub.textContent = 'Sync progress across devices.';
+      authActions.innerHTML = '<button class="auth-btn" id="showLoginBtn">Login / Register</button>';
+      document.getElementById('showLoginBtn').onclick = showAuth;
+    }
+  }
+
+  /* Single entry point for auth & sync initialization */
+  sb.auth.onAuthStateChange(async (_event, session) => {
+    const user = session?.user || null;
+    renderAuth(user);
+    if (user) {
+      await loadCloud();
+    } else {
+      setAuthMsg('Saved on this device. Login to sync across devices.');
       hydrate();
-      const { data } = await sb.auth.getSession();
-      renderAuth(data.session?.user || null);
-      if (data.session?.user) await loadCloud();
-      else setAuthMsg('Login to sync across devices.');
-    })();
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(console.error));
     }
-  </script>
+  });
+
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(console.error));
+  }
+</script>
 </body>
 </html>
